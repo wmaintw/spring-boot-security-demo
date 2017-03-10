@@ -1,4 +1,4 @@
-package com.tw.security.demo.domain;
+package com.tw.security.demo.domain.dto;
 
 public class LoginRequestDto {
     private String username;

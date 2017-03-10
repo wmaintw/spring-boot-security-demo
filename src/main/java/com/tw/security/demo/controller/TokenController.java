@@ -1,7 +1,7 @@
 package com.tw.security.demo.controller;
 
-import com.tw.security.demo.domain.LoginRequestDto;
-import com.tw.security.demo.domain.TokenDto;
+import com.tw.security.demo.domain.dto.LoginRequestDto;
+import com.tw.security.demo.domain.dto.TokenDto;
 import com.tw.security.demo.service.TokenService;
 import org.apache.catalina.servlet4preview.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,6 +1,6 @@
 package com.tw.security.demo.service;
 
-import com.tw.security.demo.domain.TokenDto;
+import com.tw.security.demo.domain.dto.TokenDto;
 import com.tw.security.demo.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

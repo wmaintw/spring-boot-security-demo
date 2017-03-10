@@ -16,7 +16,8 @@ public class MockedUserTokenStorage {
     private HashMap<String, User> loggedInUsers = new HashMap<>();
 
     public MockedUserTokenStorage() {
-        allUsers.add(new User(100, "weima", "123", ROLE_CUSTOMER));
+        allUsers.add(new User(101, "weima", "123", ROLE_CUSTOMER));
+        allUsers.add(new User(102, "wma", "123", ROLE_CUSTOMER));
         allUsers.add(new User(200, "vian", "123", ROLE_DEALER));
         allUsers.add(new User(300, "bob", "123", ROLE_ADMIN));
     }
