@@ -1,5 +1,7 @@
 package com.tw.security.demo.controller;
 
+import com.tw.security.demo.aop.annotation.CheckOwnership;
+import com.tw.security.demo.aop.annotation.ParamToCheck;
 import com.tw.security.demo.domain.Order;
 import com.tw.security.demo.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,8 +27,10 @@ public class OrderController {
         return orderService.findAll();
     }
 
+    @Secured({"ROLE_CUSTOMER", "ROLE_DEALER", "ROLE_ADMIN"})
+    @CheckOwnership(value = "OrderOwnershipChecker")
     @GetMapping("/{id}")
-    public Order getOrder(@PathVariable("id") Integer id) throws Exception {
+    public Order getOrder(@ParamToCheck @PathVariable("id") Integer id) throws Exception {
         Optional<Order> order = orderService.findOne(id);
         if (!order.isPresent()) {
             throw new Exception("Order not found");

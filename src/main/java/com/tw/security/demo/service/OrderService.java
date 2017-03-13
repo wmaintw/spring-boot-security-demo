@@ -13,10 +13,9 @@ public class OrderService {
     private List<Order> orders = new ArrayList<>();
 
     public OrderService() {
-        orders.add(new Order(1, "order content 1", 101));
-        orders.add(new Order(2, "order content 2", 101));
-        orders.add(new Order(3, "order content 3", 101));
-        orders.add(new Order(4, "order content 4", 102));
+        orders.add(new Order(1, "order content of user 1", 1));
+        orders.add(new Order(2, "another order content of user 1", 1));
+        orders.add(new Order(3, "order content of user 2", 2));
     }
 
     public List<Order> findAll() {
