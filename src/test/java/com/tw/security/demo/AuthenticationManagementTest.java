@@ -2,7 +2,6 @@ package com.tw.security.demo;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tw.security.demo.domain.dto.LoginRequestDto;
-import com.tw.security.demo.domain.dto.LogoutRequestDto;
 import com.tw.security.demo.domain.dto.TokenDto;
 import org.junit.Before;
 import org.junit.Test;
@@ -17,12 +16,16 @@ import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.Matchers.greaterThanOrEqualTo;
 import static org.hamcrest.Matchers.nullValue;
 import static org.junit.Assert.assertThat;
-import static org.springframework.http.HttpMethod.DELETE;
-import static org.springframework.http.HttpMethod.GET;
-import static org.springframework.http.HttpMethod.POST;
+import static org.springframework.http.HttpMethod.*;
 import static org.springframework.http.HttpStatus.*;
 
-public class AuthenticationTest extends BaseTest {
+public class AuthenticationManagementTest extends BaseTest {
+
+    private static final String USERNAME = "weima";
+    private static final String PASSWORD = "123";
+    private static final String WRONG_USERNAME = "WRONG_USERNAME";
+    private static final String WRONG_PASSWORD = "WRONG_PASSWORD";
+    private static final String USER_WMA = "wma";
 
     @Autowired
     private ObjectMapper objectMapper;
@@ -34,18 +37,18 @@ public class AuthenticationTest extends BaseTest {
 
     @Test
     public void should_login_successfully_when_everything_is_correct() throws Exception {
-        ResponseEntity<TokenDto> responseEntity = login("weima", "123", TokenDto.class);
+        ResponseEntity<TokenDto> responseEntity = login(USERNAME, PASSWORD, TokenDto.class);
 
         assertThat(responseEntity.getStatusCode(), is(CREATED));
 
         TokenDto tokenDto = responseEntity.getBody();
         assertThat(tokenDto.getTokenId(), is(notNullValue()));
-        assertThat(tokenDto.getUsername(), is("weima"));
+        assertThat(tokenDto.getUsername(), is(USERNAME));
     }
 
     @Test
     public void login_should_be_failed_as_username_is_incorrect() throws Exception {
-        ResponseEntity<ErrorResponseDto> responseEntity = login("wrong_username", "123", ErrorResponseDto.class);
+        ResponseEntity<ErrorResponseDto> responseEntity = login(WRONG_USERNAME, PASSWORD, ErrorResponseDto.class);
 
         assertThat(responseEntity.getStatusCode(), is(UNAUTHORIZED));
 
@@ -55,7 +58,7 @@ public class AuthenticationTest extends BaseTest {
 
     @Test
     public void login_should_be_failed_as_password_is_incorrect() throws Exception {
-        ResponseEntity<ErrorResponseDto> responseEntity = login("weima", "wrong_password", ErrorResponseDto.class);
+        ResponseEntity<ErrorResponseDto> responseEntity = login(USERNAME, WRONG_PASSWORD, ErrorResponseDto.class);
 
         assertThat(responseEntity.getStatusCode(), is(UNAUTHORIZED));
 
@@ -65,10 +68,10 @@ public class AuthenticationTest extends BaseTest {
 
     @Test
     public void response_should_be_the_same_when_either_username_or_password_is_incorrect() throws Exception {
-        ResponseEntity<ErrorResponseDto> responseOfIncorrectUsername = login("wrong_username", "123", ErrorResponseDto.class);
+        ResponseEntity<ErrorResponseDto> responseOfIncorrectUsername = login(WRONG_USERNAME, PASSWORD, ErrorResponseDto.class);
         ErrorResponseDto errorBodyOfUsernameIncorrect = responseOfIncorrectUsername.getBody();
 
-        ResponseEntity<ErrorResponseDto> responseOfIncorrectPassword = login("weima", "wrong_password", ErrorResponseDto.class);
+        ResponseEntity<ErrorResponseDto> responseOfIncorrectPassword = login(USERNAME, WRONG_PASSWORD, ErrorResponseDto.class);
         ErrorResponseDto errorBodyOfPasswordIncorrect = responseOfIncorrectPassword.getBody();
 
         assertThat(responseOfIncorrectUsername.getStatusCode(), is(responseOfIncorrectPassword.getStatusCode()));
@@ -82,7 +85,7 @@ public class AuthenticationTest extends BaseTest {
         int amountOfLoginRequest = 10;
 
         for (int i = 0; i < amountOfLoginRequest; i++) {
-            ResponseEntity<TokenDto> loginResponse = login("weima", "123", TokenDto.class);
+            ResponseEntity<TokenDto> loginResponse = login(USERNAME, PASSWORD, TokenDto.class);
             tokens.add(loginResponse.getBody().getTokenId());
         }
 
@@ -91,10 +94,10 @@ public class AuthenticationTest extends BaseTest {
 
     @Test
     public void token_value_should_not_be_unique_for_each_user() throws Exception {
-        ResponseEntity<TokenDto> firstResponse = login("weima", "123", TokenDto.class);
+        ResponseEntity<TokenDto> firstResponse = login(USERNAME, PASSWORD, TokenDto.class);
         TokenDto firstToken = firstResponse.getBody();
 
-        ResponseEntity<TokenDto> secondResponse = login("wma", "123", TokenDto.class);
+        ResponseEntity<TokenDto> secondResponse = login(USER_WMA, PASSWORD, TokenDto.class);
         TokenDto secondToken = secondResponse.getBody();
 
         assertThat(firstToken.getUsername(), not(secondToken.getUsername()));
@@ -103,14 +106,14 @@ public class AuthenticationTest extends BaseTest {
 
     @Test
     public void token_length_should_be_at_least_16_chars() throws Exception {
-        ResponseEntity<TokenDto> responseEntity = login("weima", "123", TokenDto.class);
+        ResponseEntity<TokenDto> responseEntity = login(USERNAME, PASSWORD, TokenDto.class);
         String tokenId = responseEntity.getBody().getTokenId();
         assertThat(tokenId.length(), greaterThanOrEqualTo(16));
     }
 
     @Test
     public void should_logout_successfully() throws Exception {
-        ResponseEntity<TokenDto> responseEntity = login("weima", "123", TokenDto.class);
+        ResponseEntity<TokenDto> responseEntity = login(USERNAME, PASSWORD, TokenDto.class);
         TokenDto tokenDto = responseEntity.getBody();
 
         ResponseEntity<String> logoutResponse = logout(tokenDto.getTokenId());
@@ -129,7 +132,7 @@ public class AuthenticationTest extends BaseTest {
 
     @Test
     public void token_should_be_invalid_after_logout() throws Exception {
-        ResponseEntity<TokenDto> loginResponse = login("weima", "123", TokenDto.class);
+        ResponseEntity<TokenDto> loginResponse = login(USERNAME, PASSWORD, TokenDto.class);
         String tokenId = loginResponse.getBody().getTokenId();
 
         headers.add("Authorization", tokenId);
