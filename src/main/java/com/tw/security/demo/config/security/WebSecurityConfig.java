@@ -30,11 +30,11 @@ public class WebSecurityConfig {
             http.requestCache().requestCache(new NullRequestCache());
             http.addFilter(customizedAuthenticationFilter);
 
+            http.csrf().disable().httpBasic().disable();
+
             http.authorizeRequests()
-                    .antMatchers("/token", "/token/delete").permitAll()
-                    .anyRequest().authenticated()
-                    .and().csrf().disable()
-                    .httpBasic().disable();
+                    .antMatchers("/token", "/info").permitAll()
+                    .anyRequest().authenticated();
         }
     }
 }

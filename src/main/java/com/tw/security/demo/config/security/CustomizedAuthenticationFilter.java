@@ -29,7 +29,7 @@ public class CustomizedAuthenticationFilter extends AbstractPreAuthenticatedProc
         System.out.println("token is: " + token);
 
         if (token == null) {
-            System.out.println("reject current request as token is missing");
+            System.out.println("abort customized authentication filter as token is missing");
             return null;
         }
 

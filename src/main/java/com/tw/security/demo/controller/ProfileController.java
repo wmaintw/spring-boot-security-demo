@@ -1,6 +1,7 @@
 package com.tw.security.demo.controller;
 
 import com.tw.security.demo.domain.User;
+import com.tw.security.demo.domain.exception.AuthenticationException;
 import com.tw.security.demo.service.ProfileService;
 import org.apache.catalina.servlet4preview.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +22,7 @@ public class ProfileController {
     public User getMyProfile(HttpServletRequest request) throws Exception {
         String token = request.getHeader(HttpHeaders.AUTHORIZATION);
         if (token == null) {
-            throw new Exception("Token is missing");
+            throw new AuthenticationException("Token is missing");
         }
 
         return profileService.findBy(token);

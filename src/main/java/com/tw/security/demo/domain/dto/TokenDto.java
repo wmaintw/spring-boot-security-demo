@@ -2,14 +2,14 @@ package com.tw.security.demo.domain.dto;
 
 public class TokenDto {
     private String tokenId;
-    private String firstName;
+    private String username;
 
     public TokenDto() {
     }
 
-    public TokenDto(String tokenId, String firstName) {
+    public TokenDto(String tokenId, String username) {
         this.tokenId = tokenId;
-        this.firstName = firstName;
+        this.username = username;
     }
 
     public String getTokenId() {
@@ -20,11 +20,11 @@ public class TokenDto {
         this.tokenId = tokenId;
     }
 
-    public String getFirstName() {
-        return firstName;
+    public String getUsername() {
+        return username;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
+    public void setUsername(String username) {
+        this.username = username;
     }
 }
