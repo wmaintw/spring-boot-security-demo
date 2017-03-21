@@ -32,7 +32,9 @@ dependencies {
     testCompile(
             "junit:junit",
             "org.springframework.boot:spring-boot-starter-test",
-            "org.springframework.security:spring-security-test"
+            "org.springframework.security:spring-security-test",
+            "org.apache.httpcomponents:httpclient",
+            "com.fasterxml.jackson.core:jackson-databind:2.8.7"
     )
 
 }
