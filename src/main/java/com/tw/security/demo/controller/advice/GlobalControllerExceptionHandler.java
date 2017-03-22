@@ -5,6 +5,7 @@ import com.tw.security.demo.domain.exception.AuthenticationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
@@ -20,7 +21,15 @@ public class GlobalControllerExceptionHandler extends ResponseEntityExceptionHan
         log.warn(ex.toString());
 
         ErrorResponseDto errorResponseDto = new ErrorResponseDto(ex.getErrorCode(), ex.getMessage());
-        return new ResponseEntity<ErrorResponseDto>(errorResponseDto, UNAUTHORIZED);
+        return new ResponseEntity<>(errorResponseDto, UNAUTHORIZED);
+    }
+
+    @ExceptionHandler(AccessDeniedException.class)
+    public ResponseEntity<ErrorResponseDto> handleAuthorizationException(AccessDeniedException ex) {
+        log.warn(ex.toString());
+
+        ErrorResponseDto errorResponseDto = new ErrorResponseDto("403", ex.getMessage());
+        return new ResponseEntity<>(errorResponseDto, UNAUTHORIZED);
     }
 
 }
