@@ -13,7 +13,7 @@ import java.util.Optional;
 import static com.tw.security.demo.domain.UserRole.ROLE_ADMIN;
 import static com.tw.security.demo.domain.UserRole.ROLE_DEALER;
 
-@Component
+@Component("OrderOwnershipChecker")
 public class OrderOwnershipChecker implements OwnershipChecker {
 
     @Autowired
