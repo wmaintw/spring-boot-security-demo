@@ -27,7 +27,8 @@ dependencies {
     compile(
             "org.springframework.boot:spring-boot-starter-web",
             "org.springframework.boot:spring-boot-starter-security",
-            "org.springframework.boot:spring-boot-starter-aop"
+            "org.springframework.boot:spring-boot-starter-aop",
+            "org.apache.commons:commons-lang3:3.5"
     )
     testCompile(
             "junit:junit",
