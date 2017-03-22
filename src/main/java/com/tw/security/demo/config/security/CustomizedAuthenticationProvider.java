@@ -18,14 +18,11 @@ public class CustomizedAuthenticationProvider implements AuthenticationProvider 
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         PreAuthenticatedAuthenticationToken authenticationToken = (PreAuthenticatedAuthenticationToken) authentication;
         User principal = (User) authenticationToken.getPrincipal();
-        System.out.println("user " + principal.getUsername() + " authenticated via token.");
 
         SecurityContext securityContext = SecurityContextHolder.getContext();
         UserRole role = principal.getRole();
         ArrayList<String> roles = new ArrayList<>();
         roles.add(role.toString());
-        System.out.println("user has this role: " + role.toString());
-        System.out.println("user has these roles: " + roles);
 
         CustomizedAuthentication customizedAuthentication = new CustomizedAuthentication(principal, roles);
         securityContext.setAuthentication(customizedAuthentication);
@@ -34,9 +31,6 @@ public class CustomizedAuthenticationProvider implements AuthenticationProvider 
 
     @Override
     public boolean supports(Class<?> authentication) {
-        System.out.println("determine if current auth provider could handle this request");
-        boolean isSupport = PreAuthenticatedAuthenticationToken.class.isAssignableFrom(authentication);
-        System.out.println("determine result is:" + isSupport);
-        return isSupport;
+        return PreAuthenticatedAuthenticationToken.class.isAssignableFrom(authentication);
     }
 }

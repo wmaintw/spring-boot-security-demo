@@ -24,26 +24,13 @@ public class CustomizedAuthenticationFilter extends AbstractPreAuthenticatedProc
 
     @Override
     protected Object getPreAuthenticatedPrincipal(HttpServletRequest request) {
-        System.out.println("try to extract token from http request header");
         String token = request.getHeader(HttpHeaders.AUTHORIZATION);
-        System.out.println("token is: " + token);
 
         if (token == null) {
-            System.out.println("abort customized authentication filter as token is missing");
             return null;
         }
 
-        System.out.println("start to find corresponding user by this token");
-        User user = userTokenStorage.findByToken(token);
-        System.out.println("user is: " + user);
-
-        if (user == null) {
-            System.out.println("current request will be rejected as no corresponding logged in user found.");
-        } else {
-            System.out.println("current request will be approved");
-        }
-
-        return user;
+        return userTokenStorage.findByToken(token);
     }
 
     @Override

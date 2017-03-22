@@ -26,12 +26,10 @@ public class TokenService {
             throw new AuthenticationException("Invalid username or password.");
         }
 
-        System.out.println("username and password is correct, build token for current user.");
-
         String tokenId = buildToken(username);
         userTokenStorage.store(tokenId, foundUser);
 
-        return new TokenDto(tokenId, username);
+        return new TokenDto(tokenId, username, foundUser.getId(), foundUser.getRole());
     }
 
     public void revoke(String token) {

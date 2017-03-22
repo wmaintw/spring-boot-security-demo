@@ -32,13 +32,10 @@ public class MockedUserTokenStorage {
 
     public void store(String token, User user) {
         if (loggedInUsers.containsKey(token)) {
-            System.out.println("user session exist, not need to store again.");
             return;
         }
 
         loggedInUsers.put(token, user);
-
-        System.out.println("loggedInUsers after store(): " + loggedInUsers);
     }
 
     public List<User> getAllUsers() {
@@ -51,6 +48,5 @@ public class MockedUserTokenStorage {
 
     public void delete(String token) {
         loggedInUsers.remove(token);
-        System.out.println("loggedInUsers after delete(): " + loggedInUsers);
     }
 }
