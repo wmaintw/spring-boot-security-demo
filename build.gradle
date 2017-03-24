@@ -7,6 +7,10 @@ buildscript {
     }
 }
 
+plugins {
+    id "org.flywaydb.flyway" version "4.0.1"
+}
+
 apply plugin: 'java'
 apply plugin: 'idea'
 apply plugin: 'org.springframework.boot'
@@ -28,7 +32,9 @@ dependencies {
             "org.springframework.boot:spring-boot-starter-web",
             "org.springframework.boot:spring-boot-starter-security",
             "org.springframework.boot:spring-boot-starter-aop",
-            "org.apache.commons:commons-lang3:3.5"
+            "org.springframework:spring-jdbc",
+            "org.apache.commons:commons-lang3:3.5",
+            "mysql:mysql-connector-java:5.1.38"
     )
     testCompile(
             "junit:junit",
@@ -38,6 +44,19 @@ dependencies {
             "com.fasterxml.jackson.core:jackson-databind:2.8.7"
     )
 
+}
+
+def loadProperties(){
+    def props = new Properties()
+    def configPath = "${rootProject.projectDir}/src/main/resources/application.properties"
+    new File(configPath).withInputStream{stream -> props.load(stream)}
+    props
+}
+
+flyway {
+    user = loadProperties()['spring.datasource.username']
+    password = loadProperties()['spring.datasource.password']
+    url = loadProperties()['spring.datasource.url']
 }
 
 task wrapper(type: Wrapper) {

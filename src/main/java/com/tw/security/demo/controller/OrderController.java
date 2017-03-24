@@ -27,7 +27,7 @@ public class OrderController {
         return orderService.findAll();
     }
 
-    @Secured({"ROLE_CUSTOMER", "ROLE_DEALER", "ROLE_ADMIN"})
+    @Secured({"ROLE_CUSTOMER", "ROLE_SERVICE_CONSULTANT", "ROLE_ADMIN"})
     @CheckOwnership(value = "OrderOwnershipChecker")
     @GetMapping("/{id}")
     public Order getOrder(@ParamToCheck @PathVariable("id") Integer id) throws Exception {

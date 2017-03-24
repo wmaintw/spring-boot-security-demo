@@ -1,5 +1,6 @@
 package com.tw.security.demo.service;
 
+import com.tw.security.demo.dao.UserDao;
 import com.tw.security.demo.domain.User;
 import com.tw.security.demo.domain.dto.TokenDto;
 import com.tw.security.demo.domain.exception.AuthenticationException;
@@ -15,8 +16,11 @@ public class TokenService {
     @Autowired
     private MockedUserTokenStorage userTokenStorage;
 
+    @Autowired
+    private UserDao userDao;
+
     public TokenDto grant(String username, String password) throws Exception {
-        Optional<User> user = userTokenStorage.findByUsername(username);
+        Optional<User> user = userDao.findByUsername(username);
         if (!user.isPresent()) {
             throw new AuthenticationException("Invalid username or password.");
         }
@@ -39,4 +43,5 @@ public class TokenService {
     private String buildToken(String username) {
         return "token-id-for-" + username + "-" + UUID.randomUUID();
     }
+
 }

@@ -4,14 +4,17 @@ public class Order {
     private Integer id;
     private String content;
     private Integer ownerId;
+    private Integer storeId;
+    private String status;
 
     public Order() {
     }
 
-    public Order(Integer id, String content, Integer ownerId) {
+    public Order(Integer id, String content, Integer ownerId, Integer storeId) {
         this.id = id;
         this.content = content;
         this.ownerId = ownerId;
+        this.storeId = storeId;
     }
 
     public Integer getId() {
@@ -38,12 +41,30 @@ public class Order {
         this.ownerId = ownerId;
     }
 
+    public Integer getStoreId() {
+        return storeId;
+    }
+
+    public void setStoreId(Integer storeId) {
+        this.storeId = storeId;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
     @Override
     public String toString() {
         return "Order{" +
                 "id=" + id +
                 ", content='" + content + '\'' +
                 ", ownerId=" + ownerId +
+                ", storeId=" + storeId +
+                ", status='" + status + '\'' +
                 '}';
     }
 }

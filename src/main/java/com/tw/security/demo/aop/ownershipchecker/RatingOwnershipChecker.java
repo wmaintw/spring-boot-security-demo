@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 import java.util.Optional;
 
 import static com.tw.security.demo.domain.UserRole.ROLE_ADMIN;
-import static com.tw.security.demo.domain.UserRole.ROLE_DEALER;
+import static com.tw.security.demo.domain.UserRole.ROLE_SERVICE_CONSULTANT;
 
 @Component("RatingOwnershipChecker")
 public class RatingOwnershipChecker implements OwnershipChecker {
@@ -19,7 +19,7 @@ public class RatingOwnershipChecker implements OwnershipChecker {
     private RatingService ratingService;
 
     public boolean isSafeToSkip(User currentUser) {
-        return ROLE_DEALER.equals(currentUser.getRole()) || ROLE_ADMIN.equals(currentUser.getRole());
+        return ROLE_SERVICE_CONSULTANT.equals(currentUser.getRole()) || ROLE_ADMIN.equals(currentUser.getRole());
     }
 
     public void check(User currentUser, TargetResourceId ratingId) {

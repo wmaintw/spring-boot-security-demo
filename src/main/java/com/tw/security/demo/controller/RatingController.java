@@ -26,7 +26,7 @@ public class RatingController {
         return ratingService.findAll();
     }
 
-    @Secured({"ROLE_CUSTOMER", "ROLE_DEALER", "ROLE_ADMIN"})
+    @Secured({"ROLE_CUSTOMER", "ROLE_SERVICE_CONSULTANT", "ROLE_ADMIN"})
     @CheckOwnership(value = "RatingOwnershipChecker")
     @RequestMapping("/{ratingId}")
     public Rating getOneRating(@ParamToCheck @PathVariable("ratingId") Integer ratingId) throws Exception {
